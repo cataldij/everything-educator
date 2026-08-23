@@ -211,6 +211,14 @@ p{margin:0 0 1.05em}
 /* resources tiles */
 .axis{margin-bottom:52px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(214px,1fr));gap:16px}
+/*
+ * Fixed columns for a grid whose item count is KNOWN and small, so six areas land 3x3 rather
+ * than auto-fill's 5 + one orphan on its own row. An orphan tile reads as a layout accident,
+ * which is the same defect class as the 4+2 hole found by looking on 2026-08-23.
+ */
+.tiles.balanced{grid-template-columns:1fr}
+@media(min-width:560px){.tiles.balanced{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:900px){.tiles.balanced{grid-template-columns:repeat(3,1fr)}}
 .tile{display:block;text-decoration:none;background:var(--paper);color:var(--ink);
   border:4px solid var(--ink);border-radius:14px;padding:16px 17px;
   box-shadow:0 7px 0 rgba(0,0,0,.2);transition:transform .12s}
