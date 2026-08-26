@@ -134,18 +134,41 @@ p{margin:0 0 1.05em}
 
 /* the pinned-card stack. Overlap buried two of three covers in the first pass -- a cover the
    buyer cannot read proves nothing -- so each card clears the one behind it by a title block. */
+/* the hero board: taped cards that peel off and get replaced. See homePage() for the reasoning. */
 .stack{position:relative;height:360px;margin-top:-8px}
-.stack .pin{position:absolute;width:212px}
-.stack .pin img{width:100%;display:block;border-radius:11px;border:5px solid var(--ink);
+.stack .slot{position:absolute;left:var(--x);top:var(--y);width:212px;height:212px}
+.stack .pin{position:absolute;left:0;top:0;width:100%;display:block;text-decoration:none;
+  transform:rotate(var(--r));transform-origin:50% -4%;
+  opacity:0;visibility:hidden;pointer-events:none}
+.stack .pin.is-on{opacity:1;visibility:visible;pointer-events:auto}
+.stack .pin img{width:100%;height:auto;display:block;border-radius:11px;border:5px solid var(--ink);
   box-shadow:0 10px 22px rgba(0,0,0,.26);background:#fff}
-.stack .pin:nth-of-type(1){left:0;top:34px;transform:rotate(-6deg);z-index:1}
-.stack .pin:nth-of-type(2){left:172px;top:96px;transform:rotate(3.5deg);z-index:2}
-.stack .pin:nth-of-type(3){left:344px;top:16px;transform:rotate(-2deg);z-index:3}
+/* the product name, for the pointer and for a screen reader. Never visible at rest: the covers
+ * carry their own titles and a caption under each one turns the board into a table. */
+.stack .pname{position:absolute;left:-9999px}
+.stack .pin.is-on:hover img,.stack .pin.is-on:focus-visible img{box-shadow:0 14px 30px rgba(0,0,0,.34)}
+/* the peeling card sits ABOVE the one arriving, so the move reads as a hand lifting one off a
+ * board and the new one being revealed under it. Fading them into each other at equal z looked
+ * like a crossfade with two ghosted covers, which is what a slideshow does. */
+.stack .pin.is-peel{animation:peel .68s cubic-bezier(.42,0,.72,.32) forwards;z-index:6}
+.stack .pin.is-stick{animation:stick .54s cubic-bezier(.22,1.32,.5,1) both;z-index:5}
+@keyframes peel{
+  0%{opacity:1;transform:rotate(var(--r)) translate3d(0,0,0) scale(1)}
+  30%{opacity:1;transform:rotate(calc(var(--r) + 6deg)) translate3d(3px,-9px,0) scale(1.015)}
+  64%{opacity:1}
+  100%{opacity:0;transform:rotate(calc(var(--r) + 27deg)) translate3d(34px,72px,0) scale(.9)}
+}
+@keyframes stick{
+  0%{opacity:0;transform:rotate(calc(var(--r) - 11deg)) translate3d(0,-36px,0) scale(1.07)}
+  52%{opacity:1}
+  72%{transform:rotate(calc(var(--r) + 2.4deg)) translate3d(0,5px,0) scale(.995)}
+  100%{opacity:1;transform:rotate(var(--r)) translate3d(0,0,0) scale(1)}
+}
 .tape{position:absolute;left:50%;top:-13px;margin-left:-52px;width:104px;height:28px;
   background:rgba(255,255,255,.66);border-left:2px dashed rgba(0,0,0,.14);
   border-right:2px dashed rgba(0,0,0,.14);box-shadow:0 2px 5px rgba(0,0,0,.16);
   transform:rotate(-7deg);z-index:4}
-.pin:nth-of-type(2) .tape{transform:rotate(5deg)}
+.slot:nth-of-type(2) .tape{transform:rotate(5deg)}
 .stack .scrib{position:absolute;left:4px;bottom:-4px;transform:rotate(-3deg);color:var(--ink)}
 
 /* buttons: hard shadow, no gradient, same object as a cover badge */
@@ -217,6 +240,10 @@ p{margin:0 0 1.05em}
 /* resources tiles */
 .axis{margin-bottom:52px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(214px,1fr));gap:16px}
+/* a tile grid inside prose is followed by more prose, and with no bottom margin the next
+ * paragraph butts straight into the bottom of the tiles. Caught by looking, not by the audit. */
+.prose .tiles{margin-bottom:30px}
+.steps + p{max-width:66ch;margin-top:26px}
 /*
  * Fixed columns for a grid whose item count is KNOWN and small, so six areas land 3x3 rather
  * than auto-fill's 5 + one orphan on its own row. An orphan tile reads as a layout accident,
@@ -258,6 +285,17 @@ p{margin:0 0 1.05em}
 .prose > h2:first-child,.legal > h2:first-child{margin-top:0}
 .prose p{max-width:66ch}
 .ticks{list-style:none;padding:0;margin:0 0 1.4em;display:grid;gap:10px}
+/* numbered steps: the number is the object, drawn as a cover badge rather than a list marker */
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:grid;gap:16px;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.steps li{counter-increment:s;position:relative;background:#fff;border:4px solid var(--ink);
+  border-radius:14px;padding:22px 20px 20px 22px;box-shadow:0 7px 0 rgba(0,0,0,.2)}
+.steps li::before{content:counter(s);position:absolute;top:-17px;left:18px;width:34px;height:34px;
+  background:var(--sun);border:3px solid var(--ink);border-radius:999px;display:grid;
+  place-items:center;font-variation-settings:"wght" 850;font-size:15px;color:var(--ink)}
+.steps b{display:block;text-transform:uppercase;font-variation-settings:"wdth" 84,"wght" 830;
+  font-size:16px;line-height:1.14;margin:6px 0 7px;color:var(--ink)}
+.steps span{display:block;font-size:15px;line-height:1.45;color:var(--soft)}
 .ticks li{position:relative;padding-left:34px;max-width:64ch}
 .ticks li::before{content:"";position:absolute;left:0;top:2px;width:22px;height:22px;
   border-radius:6px;background:var(--sun);border:2.5px solid var(--ink)}

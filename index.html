@@ -46,10 +46,53 @@
         <a class="btn sun" href="resources/">See what is inside</a>
       </p>
     </div>
-    <div class="stack">
-      <span class="pin"><span class="tape"></span><img src="img/covers/back-to-school-classroom-scavenger-hunt-editable.webp" alt="" width="212" height="212" loading="eager"></span>
-      <span class="pin"><span class="tape"></span><img src="img/covers/brain-break-wheel-editable-interactive.webp" alt="" width="212" height="212" loading="eager"></span>
-      <span class="pin"><span class="tape"></span><img src="img/covers/alfabeto-en-espa-ol-30-tarjetas-del-abecedario-con-d.webp" alt="" width="212" height="212" loading="eager"></span>
+    <div class="stack" data-rotator>
+      <div class="slot" style="--x:0px;--y:34px;--r:-6deg;z-index:1" data-hold="7000">
+        <a class="pin is-on" href="https://www.teacherspayteachers.com/Product/17469665" rel="noopener">
+          <span class="tape"></span>
+          <img src="img/covers/entrepreneurship-start-a-business-project.webp" alt="Cover of Start a Business Project" width="212" height="212" loading="eager">
+          <span class="pname">Start a Business Project</span>
+        </a>
+        <a class="pin" href="https://www.teacherspayteachers.com/Product/17448250" rel="noopener" tabindex="-1" aria-hidden="true">
+          <span class="tape"></span>
+          <img src="img/covers/alfabeto-en-espa-ol-30-tarjetas-del-abecedario-con-d.webp" alt="Cover of Alfabeto en Español" width="212" height="212" loading="eager">
+          <span class="pname">Alfabeto en Español</span>
+        </a>
+        <a class="pin" href="https://www.teacherspayteachers.com/Product/17301148" rel="noopener" tabindex="-1" aria-hidden="true">
+          <span class="tape"></span>
+          <img src="img/covers/ap-business-personal-finance-business-canvas-project.webp" alt="Cover of AP Business Canvas Project" width="212" height="212" loading="eager">
+          <span class="pname">AP Business Canvas Project</span>
+        </a>
+      </div>
+      <div class="slot" style="--x:172px;--y:96px;--r:3.5deg;z-index:2" data-hold="7900">
+        <a class="pin is-on" href="https://www.teacherspayteachers.com/store/the-everything-educator" rel="noopener">
+          <span class="tape"></span>
+          <img src="img/covers/dia-de-los-muertos-bundle-lecturas-juegos-carteles-y.webp" alt="Cover of Día de los Muertos Bundle" width="212" height="212" loading="eager">
+          <span class="pname">Día de los Muertos Bundle</span>
+        </a>
+        <a class="pin" href="https://www.teacherspayteachers.com/Product/17260562" rel="noopener" tabindex="-1" aria-hidden="true">
+          <span class="tape"></span>
+          <img src="img/covers/turn-in-tray-labels-editable-turn-in-bin-signs-and-p.webp" alt="Cover of Turn In Tray Labels" width="212" height="212" loading="eager">
+          <span class="pname">Turn In Tray Labels</span>
+        </a>
+        <a class="pin" href="https://www.teacherspayteachers.com/Product/17302325" rel="noopener" tabindex="-1" aria-hidden="true">
+          <span class="tape"></span>
+          <img src="img/covers/composition-notebook-birthday-board-editable-birthda.webp" alt="Cover of Birthday Board" width="212" height="212" loading="eager">
+          <span class="pname">Birthday Board</span>
+        </a>
+      </div>
+      <div class="slot" style="--x:344px;--y:16px;--r:-2deg;z-index:3" data-hold="8800">
+        <a class="pin is-on" href="https://www.teacherspayteachers.com/Product/17360530" rel="noopener">
+          <span class="tape"></span>
+          <img src="img/covers/brain-break-wheel-editable-interactive.webp" alt="Cover of Brain Break Wheel" width="212" height="212" loading="eager">
+          <span class="pname">Brain Break Wheel</span>
+        </a>
+        <a class="pin" href="https://www.teacherspayteachers.com/Product/17265598" rel="noopener" tabindex="-1" aria-hidden="true">
+          <span class="tape"></span>
+          <img src="img/covers/visual-schedule-template-editable-daily-schedule-car.webp" alt="Cover of Visual Schedule Template" width="212" height="212" loading="eager">
+          <span class="pname">Visual Schedule Template</span>
+        </a>
+      </div>
       <span class="scrib">real files, real covers</span>
     </div>
   </div>
@@ -60,7 +103,7 @@
 <section class="facts">
   <div class="inner">
     <div><b>6 Practice Areas</b><span>world language, elementary, special education, SEL and secondary</span></div>
-    <div><b>346 Files</b><span>live in the store, every one of them ours</span></div>
+    <div><b>350 Files</b><span>live in the store, every one of them ours</span></div>
     <div><b>2 Languages</b><span>Spanish written in Spanish, never run through a translator</span></div>
   </div>
 </section>
@@ -282,5 +325,54 @@
     <p class="fine">Made in a real classroom. No advertising on this site and no tracking that follows you around.</p>
   </div>
 </footer>
+<script>
+(function(){
+  var stack = document.querySelector('[data-rotator]');
+  if (!stack || !window.matchMedia) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var paused = false;
+  var hold = function(v){ return function(){ paused = v; }; };
+  stack.addEventListener('mouseenter', hold(true));
+  stack.addEventListener('mouseleave', hold(false));
+  stack.addEventListener('focusin', hold(true));
+  stack.addEventListener('focusout', hold(false));
+
+  Array.prototype.forEach.call(stack.querySelectorAll('.slot'), function(slot){
+    var pins = Array.prototype.slice.call(slot.querySelectorAll('.pin'));
+    if (pins.length < 2) return;
+    var wait = parseInt(slot.getAttribute('data-hold'), 10) || 7000;
+    var i = 0;
+
+    function reachable(el, yes){
+      if (yes) { el.removeAttribute('aria-hidden'); el.removeAttribute('tabindex'); }
+      else { el.setAttribute('aria-hidden', 'true'); el.setAttribute('tabindex', '-1'); }
+    }
+
+    function tick(){
+      // A peel that fires while the tab is hidden finishes with no frames drawn and the card
+      // simply vanishes, so wait for the tab to come back instead of burning a turn.
+      if (document.hidden || paused) { setTimeout(tick, 1000); return; }
+      var cur = pins[i];
+      var nxt = pins[(i + 1) % pins.length];
+      cur.classList.add('is-peel');
+      // The next card starts landing before the last one is gone. Two cards in the air for
+      // 250ms is what makes it read as a hand swapping them rather than a crossfade.
+      setTimeout(function(){
+        nxt.classList.add('is-on', 'is-stick');
+        reachable(nxt, true);
+      }, 430);
+      setTimeout(function(){
+        cur.classList.remove('is-on');
+        cur.classList.remove('is-peel');
+        reachable(cur, false);
+      }, 700);
+      setTimeout(function(){ nxt.classList.remove('is-stick'); }, 1000);
+      i = (i + 1) % pins.length;
+      setTimeout(tick, wait + 700);
+    }
+    setTimeout(tick, wait);
+  });
+}());
+</script>
 </body>
 </html>
