@@ -66,7 +66,8 @@ p{margin:0 0 1.05em}
 .plate em{font-style:normal;color:var(--sun)}
 
 /* ── wordmark: "Everything" reversed out of the plate ───────────────────────── */
-.brand{text-decoration:none;display:inline-block}
+.brand{text-decoration:none;display:inline-flex;align-items:center;gap:11px}
+.brand .mk{width:34px;height:34px;border-radius:8px;display:block}
 .wm{font-variation-settings:"wdth" 70,"wght" 890;text-transform:uppercase;font-size:21px;
   line-height:1;letter-spacing:-.012em;white-space:nowrap;color:#fff}
 .wm .pl{background:var(--sun);color:var(--ink);border-radius:.19em;padding:.055em .17em .085em;
@@ -276,6 +277,11 @@ p{margin:0 0 1.05em}
  * than auto-fill's 5 + one orphan on its own row. An orphan tile reads as a layout accident,
  * which is the same defect class as the 4+2 hole found by looking on 2026-08-23.
  */
+/* eight expertise tiles beside a prose column: two-up, so the column is as tall as the prose
+   and not a 1,700px stack next to 500px of text (the 08-25 layout audit's defect class) */
+.tiles.two{grid-template-columns:1fr}
+@media(min-width:700px){.tiles.two{grid-template-columns:repeat(2,1fr)}}
+.split .tiles.two .tile span{font-size:14px}
 .tiles.balanced{grid-template-columns:1fr}
 @media(min-width:560px){.tiles.balanced{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:900px){.tiles.balanced{grid-template-columns:repeat(3,1fr)}}
