@@ -169,6 +169,33 @@ p{margin:0 0 1.05em}
   border-right:2px dashed rgba(0,0,0,.14);box-shadow:0 2px 5px rgba(0,0,0,.16);
   transform:rotate(-7deg);z-index:4}
 .slot:nth-of-type(2) .tape{transform:rotate(5deg)}
+
+/* Two-column editorial row: prose on one side, an OBJECT on the other. Exists because a 66ch
+ * paragraph centred in a 1400px band leaves ~350px of dead ground on each side; measured on seven
+ * sections across three pages before this was written. The paragraph keeps its reading width,
+ * the row is what fills the band. */
+.split{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:64px;align-items:start}
+.split.rev{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+.split.even{grid-template-columns:1fr 1fr;align-items:center}
+.split>*{min-width:0}
+.split .tiles{grid-template-columns:1fr}
+.split h2{margin-bottom:18px}
+.split .sub{margin-bottom:22px}
+.stack.mini{height:330px;margin-top:0}
+.stack.mini .scrib{left:auto;right:6px;bottom:0}
+/* the caption is ink; on an ink ground that is black on black, which the first render proved */
+.s-ink .stack .scrib{color:var(--sun)}
+.s-berry .stack .scrib,.s-teal .stack .scrib{color:#fff}
+/* a roster tile that is 500px wide, not 214, can afford body-size role text */
+.split .tile span{font-size:15px;line-height:1.5}
+.split .tile b{font-size:17px}
+/* the expect list as four cards across the band, instead of a list down a narrow column */
+.ticks.cards{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:0 0 32px}
+.ticks.cards li{max-width:none;background:var(--paper);color:var(--ink);border:4px solid var(--ink);
+  border-radius:14px;padding:20px 20px 20px 58px;box-shadow:0 7px 0 rgba(0,0,0,.35);
+  font-size:16px;line-height:1.45}
+.ticks.cards li::before{left:19px;top:21px}
+.ticks.cards li::after{left:26px;top:26px}
 .stack .scrib{position:absolute;left:4px;bottom:-4px;transform:rotate(-3deg);color:var(--ink)}
 
 /* buttons: hard shadow, no gradient, same object as a cover badge */
@@ -330,6 +357,7 @@ p{margin:0 0 1.05em}
   /* the desktop gutter is 44px so the page sits wide on a laptop; it has to step back down or a
    * 390px phone spends a quarter of its width on margin */
   .inner{padding:0 30px}
+  .split,.split.rev,.split.even{grid-template-columns:1fr;gap:34px}
   .hero .inner{grid-template-columns:1fr}
   .stack{display:none}
   .grid{grid-template-columns:repeat(2,1fr)}
