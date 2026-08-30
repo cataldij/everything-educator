@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://cataldij.github.io/everything-educator/sitemap.xml
