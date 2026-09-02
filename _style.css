@@ -384,3 +384,42 @@ p{margin:0 0 1.05em}
   .grid{grid-template-columns:1fr}
   .strip{letter-spacing:.14em;font-size:11px}
 }
+
+/* ── guides, freebies, FAQ ────────────────────────────────────────────────── */
+/* The article column is the one place on this site with long prose, so it gets a real
+   measure. Never past 66ch: a wider line loses the reader's return sweep, and that was
+   already learned the expensive way on the v2 layout. */
+.article{max-width:66ch}
+.article h2{margin:2.2rem 0 .6rem;font-size:1.5rem;line-height:1.15}
+.article h3{margin:1.6rem 0 .4rem;font-size:1.15rem}
+.article p{margin:0 0 1rem;line-height:1.7}
+.article ul,.article ol{margin:0 0 1.2rem;padding-left:1.2rem;line-height:1.7}
+.article li{margin:.35rem 0}
+.article img{display:block;width:100%;height:auto;border-radius:14px;margin:1.4rem 0;border:3px solid var(--ink)}
+.article blockquote{margin:1.4rem 0;padding:.2rem 0 .2rem 1rem;border-left:5px solid var(--sun)}
+.article a{color:var(--ink);text-underline-offset:3px}
+
+.hero-lite{padding:3.2rem 0 2.6rem}
+.hero-lite h1{margin:.3rem 0 .6rem;font-size:clamp(1.9rem,4.6vw,3rem);line-height:1.04}
+.lede{font-size:1.1rem;line-height:1.55;max-width:60ch;margin:0 0 .8rem}
+.kicker{font:700 .74rem/1 Archivo,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;margin:0}
+
+.gcards{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.gcard{display:block;padding:1.15rem 1.2rem;border:3px solid var(--ink);border-radius:16px;
+  background:var(--chalk);color:var(--ink);text-decoration:none;box-shadow:5px 5px 0 var(--ink)}
+.gcard h3{margin:0 0 .35rem;font-size:1.08rem;line-height:1.2}
+.gcard p{margin:0 0 .6rem;font-size:.93rem;line-height:1.45;color:var(--soft)}
+.gcard .more{font:700 .8rem/1 Archivo,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.gcard:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+
+.freebs{display:flex;flex-wrap:wrap;gap:.55rem}
+.freeb{display:inline-block;padding:.55rem .9rem;border:3px solid var(--ink);border-radius:999px;
+  background:var(--chalk);color:var(--ink);text-decoration:none;font-weight:700;font-size:.92rem;
+  box-shadow:3px 3px 0 var(--ink)}
+.freeb:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+
+.grab .plate{padding:1.6rem}
+.faq{margin:0}
+.faq dt{font-weight:800;margin:1.1rem 0 .3rem;font-size:1.02rem}
+.faq dd{margin:0;line-height:1.65;color:var(--soft)}
+.plainlist{margin:0;padding-left:1.1rem;line-height:1.9}
