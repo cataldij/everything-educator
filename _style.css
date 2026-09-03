@@ -418,6 +418,20 @@ p{margin:0 0 1.05em}
   box-shadow:3px 3px 0 var(--ink)}
 .freeb:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
 
+/* the freebie library grid (/free/). A card is the cover, the human name, and one line off
+   the store title. Square art because every cover in this store is square. */
+.fgrid{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.fcard{display:block;background:var(--chalk);border:3px solid var(--ink);border-radius:16px;
+  padding:12px;text-decoration:none;color:var(--ink);box-shadow:5px 5px 0 var(--ink)}
+.fcard img{width:100%;height:auto;display:block;border-radius:10px;border:3px solid var(--ink);
+  aspect-ratio:1/1;object-fit:cover;background:var(--paper)}
+.fcard b{display:block;margin:12px 0 4px;font-size:17px;line-height:1.2}
+.fcard span{display:block;font-size:13.5px;line-height:1.4;color:var(--soft)}
+.fcard em{display:inline-block;margin-top:10px;font-style:normal;font-size:12px;line-height:1;
+  letter-spacing:.08em;text-transform:uppercase;font-variation-settings:"wght" 750;
+  background:var(--sun);padding:7px 10px;border-radius:6px}
+.fcard:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+
 .grab .plate{padding:1.6rem}
 .faq{margin:0}
 .faq dt{font-weight:800;margin:1.1rem 0 .3rem;font-size:1.02rem}
