@@ -118,8 +118,16 @@ p{margin:0 0 1.05em}
 /* ...but a card is an <a> on a cream ground INSIDE those sections, and the .s-berry a rule (0,1,1)
    outranks .card (0,1,0), so every card title rendered white on cream and vanished. .cline
    survived only because it carries its own colour. Restore the card's own ground rules at a
-   specificity that wins. Caught by the mobile look step, not by any automated check. */
+   specificity that wins. Caught by the mobile look step, not by any automated check.
+   SECOND VICTIM (Sept 4): the freebie pill. .freeb is an <a> on a chalk ground inside .s-teal,
+   so every pill on the home page shipped white-on-white and read as seven empty capsules.
+   The contrast gate cannot see this: it checks a hand-listed table of pairs, and a cascade
+   collision is by definition a pair nobody listed. _site-shoot.mjs now reads COMPUTED colour
+   off every text node in the browser, which is the only instrument that can. Any new light
+   ground placed inside a dark section goes on this line. */
 .s-teal .card,.s-berry .card,.s-ink .card,
+.s-teal .freeb,.s-berry .freeb,.s-ink .freeb,
+.s-teal .btn,.s-berry .btn,.s-ink .btn,
 .s-teal .tile,.s-berry .tile,.s-ink .tile{color:var(--ink)}
 .card .cname,.tile b{color:var(--ink)}
 
