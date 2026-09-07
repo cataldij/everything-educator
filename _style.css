@@ -78,9 +78,12 @@ p{margin:0 0 1.05em}
  * that tested best on a dark ground. */
 .topbar{background:var(--ink)}
 .topbar .inner{display:flex;align-items:center;gap:26px;min-height:64px;flex-wrap:wrap}
-.topbar nav{margin-left:auto;display:flex;gap:22px;font-size:14.5px;
+.topbar nav{margin-left:auto;display:flex;flex-wrap:wrap;gap:10px 22px;font-size:14.5px;
   font-variation-settings:"wght" 620}
-.topbar nav a{color:#fff;text-decoration:none;padding:4px 0;border-bottom:2px solid transparent}
+/* A label breaks BETWEEN items, never inside one. Without this the phone nav split
+   "Teacher to Teacher" and "The store" down the middle of their own names. */
+.topbar nav a{color:#fff;text-decoration:none;padding:4px 0;border-bottom:2px solid transparent;
+  white-space:nowrap}
 .topbar nav a:hover,.topbar nav a[aria-current]{color:var(--sun);border-bottom-color:var(--sun)}
 
 .sitefoot{background:var(--ink);color:#B9B0A0;padding:46px 0 56px}
@@ -385,7 +388,7 @@ p{margin:0 0 1.05em}
   /* a fixed bar height clipped the three-line brand at 390px, caught by the mobile look step */
   .topbar .inner{padding-top:12px;padding-bottom:12px;gap:6px 18px}
   .wm{font-size:17px;white-space:normal}
-  .topbar nav{margin-left:0;gap:16px;font-size:13.5px}
+  .topbar nav{margin-left:0;gap:8px 16px;font-size:13.5px}
   .band{height:64px}
   .divider i{height:54px}
   .sec{padding:46px 0 52px}
@@ -445,3 +448,362 @@ p{margin:0 0 1.05em}
 .faq dt{font-weight:800;margin:1.1rem 0 .3rem;font-size:1.02rem}
 .faq dd{margin:0;line-height:1.65;color:var(--soft)}
 .plainlist{margin:0;padding-left:1.1rem;line-height:1.9}
+
+/* ── THE GUIDE: an editorial page, not a wall of boxes ────────────────────────
+ *
+ * v1 of this layout took the cover grammar literally and applied it to every element on the
+ * page: a 4px ink border, a hard offset shadow and a rounded corner on the stat cards, the date
+ * cards, the credit cards, the week cards, the FAQ cards and the reading cards. Twenty-five
+ * copies of one component. The verdict on it was that it looked like no energy went into it,
+ * and that was right: uniform treatment IS the absence of design decisions, and a saturated
+ * slab behind every band leaves nothing anywhere for the eye to rest.
+ *
+ * v2 keeps the brand and spends it. Three things carry the page instead:
+ *
+ *   TYPE. Fraunces, a variable serif with an optical-size axis, carries every heading in
+ *   sentence case. The condensed black caps stay where they came from, the store's covers and
+ *   the site header. A long read needs a voice, not a shout.
+ *
+ *   ART. The papel picado banner and the folk-art spots are the SAME assets the Spanish
+ *   products are cut from, so the page looks like the shelf it sells rather than a template
+ *   with a stock photo. The marigold tile grounds the one dark band.
+ *
+ *   AIR. Bands are separated by ground colour and generous padding, not by a 6px black rule.
+ *   Hairlines do the work borders used to do; the two dark bands are the only saturation.
+ */
+.guide{--gp:#FCF9F3;--gp2:#F5EEE1;--gink:#14161B;--gtext:#3C4149;--gmute:#6F675B;
+  /* gmute measured 4.45 on paper and 4.05 on the tint; small text needs 4.5 on BOTH grounds
+     this page paints, so it is set from the darker requirement. Computed probe, not taste. */
+  --gline:#E6DDCC;--gsun:#FFD230;--gterra:#B8492C;--gteal:#0C544E;
+  background:var(--gp)}
+.guide .sec{border-bottom:0;padding:clamp(50px,5.6vw,78px) 0 clamp(54px,6vw,84px);position:relative}
+.guide .s-paper{background:var(--gp)}
+.guide .s-sun{background:var(--gp2)}
+.guide .inner{max-width:1120px}
+/* a prose run following a component block in the SAME band still needs air above it. Matched on
+   .inner, not on .gwide: a spread is an inner gspread and the gwide-only rule stopped
+   firing the moment one appeared, which butted a heading straight onto the box above it. */
+.guide .sec > .inner + .inner{margin-top:clamp(30px,3.4vw,46px)}
+
+/* type -------------------------------------------------------------------- */
+.guide h1,.guide h2,.guide h3,.guide .disp{font-family:Fraunces,Georgia,"Times New Roman",serif;
+  text-transform:none;letter-spacing:-.018em;font-variation-settings:"SOFT" 0,"WONK" 0;
+  font-weight:600;color:var(--gink)}
+.guide h1{font-size:clamp(38px,4.9vw,62px);line-height:1.04;font-variation-settings:"opsz" 100,"SOFT" 0}
+.guide .gwide > h2{font-size:clamp(28px,3.3vw,40px);line-height:1.1;margin:0 0 14px}
+.guide .article h2{font-size:clamp(26px,3vw,36px);line-height:1.12;margin:2.2em 0 .55em}
+.guide .article > h2:first-child{margin-top:0}
+.guide h3{font-size:22px;line-height:1.2;font-weight:600}
+.guide .article p,.guide .article li{font-size:18.5px;line-height:1.68;color:var(--gtext);max-width:64ch}
+.guide .article a{color:var(--gink);text-decoration-thickness:1px;text-underline-offset:4px;
+  text-decoration-color:var(--gsun)}
+.guide .article a:hover{text-decoration-color:var(--gink)}
+.guide .kicker{font:700 11.5px/1 Archivo,system-ui,sans-serif;letter-spacing:.19em;
+  text-transform:uppercase;color:var(--gmute);margin:0}
+.guide .lede{font-size:21px;line-height:1.5;color:var(--gtext);max-width:56ch;
+  font-variation-settings:"wght" 380}
+.guide .fine{font-size:13px;color:var(--gmute);letter-spacing:.03em}
+
+/* the opening paragraph gets a drop cap, the one classical move a how-to can carry */
+/* ONE drop cap, on the page's opening paragraph. Every prose run is its own .article, so a
+   :first-of-type rule alone set one on each of them and the page grew three. */
+.guide .article.lead > p:first-child::first-letter{float:left;font-family:Fraunces,Georgia,serif;
+  font-size:3.6em;line-height:.82;font-weight:600;margin:.06em .1em 0 0;color:var(--gterra)}
+
+/* hero -------------------------------------------------------------------- */
+.guide .hero-lite{padding-top:0;padding-bottom:clamp(44px,5.4vw,70px);background:var(--gp)}
+/* the band after the hero belongs to the hero's breath, not to a fresh section's */
+.guide .hero-lite + .sec{padding-top:clamp(26px,3.4vw,46px)}
+/* the papel picado banner, full bleed, tiled along the top of the page. The same cut-paper art
+   the Spanish products are built from, and the reason this page reads as ours on sight. */
+.guide .papel{height:clamp(58px,7.4vw,104px);background-repeat:repeat-x;background-position:center;
+  background-size:auto 100%;margin:0 0 clamp(34px,4.4vw,58px)}
+.guide .dateline{display:inline-block;background:none;color:var(--gterra);border-radius:0;padding:0;
+  margin:0 0 20px;font:700 12px/1 Archivo,system-ui,sans-serif;letter-spacing:.17em;
+  text-transform:uppercase;border-bottom:2px solid var(--gsun);padding-bottom:6px}
+.guide .hero-lite .kicker{margin-bottom:14px}
+.guide .hero-lite h1{margin:0 0 20px;max-width:19ch}
+.guide .hero-lite .fine{margin:22px 0 0}
+
+/* THE OPENING SPREAD. The three facts used to run as a strip under the headline, which left the
+   right half of the tallest block on the page empty and pushed everything down by their height.
+   Stacked in the rail they answer the headline instead of following it, and the page opens
+   ~180px shorter. */
+.guide .gstats{display:grid;gap:0;grid-template-columns:1fr;margin:38px 0 0;padding:0;
+  list-style:none;border-top:1px solid var(--gline)}
+@media(min-width:760px){.guide .gstats{grid-template-columns:repeat(3,1fr)}}
+.guide .gstat{background:none;border:0;border-bottom:1px solid var(--gline);border-radius:0;
+  box-shadow:none;padding:20px 26px 20px 0}
+@media(min-width:760px){
+  .guide .gstat{border-bottom:0;border-right:1px solid var(--gline);padding:22px 30px 6px 0}
+  .guide .gstat:last-child{border-right:0}
+}
+@media(min-width:1080px){
+  .guide .hero-lite .grail{margin-top:0}
+  .guide .grail .gstats{grid-template-columns:1fr;margin:0}
+  .guide .grail .gstat{border-right:0;border-bottom:1px solid var(--gline);padding:18px 0 20px}
+  .guide .grail .gstat:first-child{padding-top:14px}
+  .guide .grail .gstat:last-child{border-bottom:0}
+  .guide .grail .gstat b{font-size:30px}
+}
+.guide .gstat b{display:block;font-family:Fraunces,Georgia,serif;font-variation-settings:"opsz" 60;
+  text-transform:none;letter-spacing:-.02em;font-size:34px;font-weight:600;line-height:1;
+  margin-bottom:9px;color:var(--gink)}
+.guide .gstat span{display:block;font-size:14.5px;line-height:1.45;color:var(--gmute)}
+/* the doodle marquee is the SITE's motif and the papel banner is this page's; stacking both puts
+   two decorative strips back to back and neither one reads as chosen. The page keeps its own. */
+.guide-page .marquee,.guide-page .band{display:none}
+.guide .dates,.guide .gtoc,.guide .credits,.guide .weeks,.guide .faq,.guide .admits{list-style:none}
+
+/* contents, as a quiet index */
+.guide .gtoc{display:grid;gap:0;grid-template-columns:1fr;margin:34px 0 0;padding:0;list-style:none;
+  counter-reset:toc}
+@media(min-width:720px){
+  .guide .gtoc{grid-template-columns:1fr 1fr;column-gap:44px}
+  /* An odd count leaves a hole in the bottom-right of any even grid. The last entry takes it. */
+  .guide .gtoc li:last-child:nth-child(odd){grid-column:1/-1}
+}
+.guide .gtoc li{counter-increment:toc;border-bottom:1px solid var(--gline)}
+.guide .gtoc a{display:flex;gap:14px;align-items:baseline;background:none;border:0;border-radius:0;
+  box-shadow:none;padding:13px 0;font-size:16.5px;color:var(--gink);text-decoration:none;
+  font-variation-settings:"wght" 450}
+.guide .gtoc a::before{content:counter(toc,decimal-leading-zero);font-size:12px;letter-spacing:.1em;
+  color:var(--gmute);font-variation-settings:"wght" 700}
+.guide .gtoc a:hover{transform:none;box-shadow:none;color:var(--gterra)}
+
+/* the dates, as a hairline table with a folk-art spot beside it -------------- */
+.guide .dates{display:grid;gap:0;grid-template-columns:1fr;margin:6px 0 0;padding:0;list-style:none;
+  border-top:1px solid var(--gline)}
+@media(min-width:760px){.guide .dates{grid-template-columns:repeat(3,1fr);column-gap:34px}}
+.guide .dateb{background:none;border:0;border-bottom:1px solid var(--gline);border-radius:0;
+  box-shadow:none;padding:18px 0}
+.guide .dateb b{display:block;background:none;border:0;border-radius:0;padding:0;margin:0 0 8px;
+  color:var(--gterra);font:700 12px/1 Archivo,system-ui,sans-serif;letter-spacing:.15em;
+  text-transform:uppercase}
+.guide .dateb span{font-size:17px;line-height:1.45;color:var(--gtext)}
+/* a spot sits in the margin of a section, decorative, never in the reading column */
+/* The spot files are print assets on WHITE, not cut-outs, so on a cream ground each one paints
+   its own white rectangle. Multiply drops the white and keeps the ink, which is the same trick
+   the doodle band uses; it is why the art can stay a PNG with no alpha channel. */
+/* The opening spot answers the drop cap across the spread, so it takes the rail's full width.
+   The closing one is a tail piece before the covers and sets the band's height on its own, so it
+   stays small enough not to inflate the band around three lines of prose. */
+.guide .gspot{width:100%;aspect-ratio:1/1;background-repeat:no-repeat;background-position:top center;
+  background-size:contain;mix-blend-mode:multiply;transform:rotate(-4deg);display:none}
+.guide .gspot-1{max-width:230px;margin-left:auto;transform:rotate(3deg)}
+
+/* THE SPREAD -------------------------------------------------------------- */
+/* One grid, and the page's only one: a reading column and a 320px rail, 56px apart inside the
+   1032px the inner actually gives us. Everything that used to hang in the margin -- the inset
+   photograph, the folk-art spot -- lives in the rail, which is why the right edge of this page
+   is now a line rather than five different lines. */
+.guide .gspread > .gmain > .gwide:first-child{margin-top:0}
+@media(min-width:1080px){
+  .guide .gspread{display:grid;grid-template-columns:minmax(0,1fr) 320px;column-gap:56px;
+    align-items:start}
+  .guide .gmain{min-width:0}
+  .guide .grail{min-width:0;margin:6px 0 0}
+  .guide .gspot{display:block}
+}
+/* Collapsed, the rail is the picture again and the spot is decoration nobody asked for. */
+.guide .grail{margin:30px 0 0}
+
+/* the credited teachers ---------------------------------------------------- */
+.guide .credits{display:grid;gap:0;grid-template-columns:1fr;border-top:1px solid var(--gline)}
+@media(min-width:820px){.guide .credits{grid-template-columns:1fr 1fr;column-gap:56px}}
+.guide .credit{background:none;border:0;border-bottom:1px solid var(--gline);border-radius:0;
+  box-shadow:none;overflow:visible;padding:28px 0 30px}
+.guide .credit .bar{display:none}
+.guide .credit .in{display:grid;grid-template-columns:52px 1fr;gap:18px;padding:0}
+.guide .credit .mono{grid-row:span 3;width:52px;height:52px;border-radius:50%;display:grid;
+  place-items:center;font-family:Fraunces,Georgia,serif;font-size:19px;font-weight:600;
+  color:#fff;background:var(--gterra);letter-spacing:.01em}
+.guide .credit:nth-child(2) .mono{background:var(--gteal)}
+.guide .credit:nth-child(3) .mono{background:#8A5A2B}
+.guide .credit:nth-child(4) .mono{background:#7A2E52}
+.guide .credit h3{margin:0 0 6px;font-size:22px;grid-column:2}
+.guide .credit .site{grid-column:2;justify-self:start;background:none;border:0;border-radius:0;
+  padding:0;margin:0 0 12px;color:var(--gmute);font:700 11.5px/1 Archivo,system-ui,sans-serif;
+  letter-spacing:.15em;text-transform:uppercase;text-decoration:none;
+  border-bottom:1px solid var(--gline);padding-bottom:5px}
+.guide .credit .site:hover{color:var(--gterra);border-bottom-color:var(--gterra)}
+.guide .credit p{grid-column:2;margin:0 0 .75em;font-size:16.5px;line-height:1.6;color:var(--gtext);
+  max-width:46ch}
+.guide .credit p:last-child{margin-bottom:0}
+
+/* what they admit went wrong: the one dark band, on marigold -------------- */
+.guide .s-ink{background-color:#191013;background-position:center;background-size:520px;
+  color:#F3ECE0}
+.guide .s-ink::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,
+  rgba(20,12,14,.90),rgba(20,12,14,.955));pointer-events:none}
+.guide .s-ink > *{position:relative;z-index:1}
+.guide .s-ink h2{color:#FFF6E6}
+.guide .s-ink .lede{color:#D9CBB6}
+.guide .admits{display:grid;gap:0;grid-template-columns:1fr;align-items:start;
+  border-top:1px solid rgba(255,255,255,.16)}
+@media(min-width:880px){.guide .admits{grid-template-columns:1fr 1fr;column-gap:56px}}
+/* Three admissions of very different lengths leave a dead quadrant in a 2-up grid. In a row of
+   three on a wide screen the ragged bottoms read as a column run, which is what they are. */
+/* One admission runs three times the length of the other two, so equal columns left two thirds
+   of a saturated band empty under two short paragraphs. At exactly three the long one takes a
+   full-height lead column and the two short ones stack beside it, which is what they are: a lead
+   and its two corroborations. Widths measured off the copy, not chosen. */
+@media(min-width:1080px){
+  .guide .admits.three{grid-template-columns:1.12fr 1fr;column-gap:64px}
+  .guide .admits.three .admit:first-child{grid-row:span 2}
+  .guide .admits.three .admit:first-child p{font-size:21px;max-width:34ch}
+}
+.guide .admit{background:none;border:0;border-bottom:1px solid rgba(255,255,255,.16);
+  border-radius:0;padding:26px 0 28px}
+.guide .admit b{display:block;color:var(--gsun);font:700 11.5px/1.4 Archivo,system-ui,sans-serif;
+  letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px}
+.guide .admit p{font-family:Fraunces,Georgia,serif;font-size:20px;line-height:1.45;color:#F3ECE0;
+  font-weight:400;max-width:42ch;margin:0 0 .6em}
+.guide .admit p:last-child{margin-bottom:0}
+
+/* the rule: the argument of the page, alone on deep teal ------------------- */
+.guide .s-teal{background:var(--gteal)}
+.guide .rulebox .kicker{color:#9FD8D0;margin:0 0 22px}
+.guide .ruletext p{font-family:Fraunces,Georgia,serif;font-size:clamp(28px,3.7vw,46px);
+  line-height:1.16;letter-spacing:-.02em;font-weight:500;color:#fff;max-width:21ch;margin:0}
+.guide .ruletext p + p{margin-top:26px;font-family:Archivo,system-ui,sans-serif;font-size:18px;
+  line-height:1.55;color:#C8E6E1;max-width:52ch;font-variation-settings:"wght" 400;letter-spacing:0}
+/* The statement is set short on purpose, which left 45% of a saturated band empty under nothing.
+   Its qualifier goes to the rail and sits on the statement's last line, so the band carries two
+   things at two weights instead of one thing and a void. */
+@media(min-width:1080px){
+  .guide .ruletext{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:56px;
+    align-items:end}
+  .guide .ruletext p + p{grid-column:2;margin:0 0 10px;max-width:none}
+}
+
+/* the four weeks: ghost numerals on hairlines, not four more cards --------- */
+.guide .weeks{display:grid;gap:0;grid-template-columns:1fr;counter-reset:w;
+  border-top:1px solid var(--gline)}
+.guide .week{counter-increment:w;position:relative;background:none;border:0;
+  border-bottom:1px solid var(--gline);border-radius:0;box-shadow:none;display:grid;
+  grid-template-columns:1fr;gap:0;padding:34px 0 36px}
+@media(min-width:860px){
+  .guide .week{grid-template-columns:118px minmax(0,1fr);column-gap:40px;padding:40px 0 42px}
+}
+/* The week's rule is the point of the week, so at full width it takes its own column beside the
+   prose instead of hanging under it. That column is the 320px the band was wasting. */
+@media(min-width:1080px){
+  .guide .week{grid-template-columns:118px minmax(0,1fr) 320px;column-gap:44px}
+}
+.guide .week::before{content:"Week " counter(w,decimal-leading-zero);position:static;
+  background:none;color:var(--gmute);padding:0;border-radius:0;letter-spacing:.16em;
+  text-transform:uppercase;font:700 11.5px/1 Archivo,system-ui,sans-serif;margin-bottom:14px}
+@media(min-width:860px){
+  .guide .week::before{align-self:start;padding-top:9px;margin:0}
+}
+.guide .wbody{display:block;min-width:0}
+.guide .week h3{margin:0 0 12px;font-size:25px}
+.guide .week p{font-size:17px;line-height:1.62;color:var(--gtext);max-width:56ch;margin:0 0 .8em}
+.guide .week .ends{display:block;margin-top:16px;background:none;border:0;
+  border-left:3px solid var(--gsun);border-radius:0;padding:4px 0 4px 18px;max-width:52ch}
+@media(min-width:1080px){.guide .week .ends{margin-top:6px;align-self:start}}
+.guide .week .ends b{display:block;color:var(--gmute);font:700 11px/1 Archivo,system-ui,sans-serif;
+  letter-spacing:.15em;text-transform:uppercase;margin-bottom:7px}
+.guide .week .ends{font-family:Fraunces,Georgia,serif;font-size:17.5px;line-height:1.5;
+  color:var(--gink)}
+
+/* what to skip: a margin note, not a warning label ------------------------ */
+.guide .skipbox{background:none;border:0;border-left:3px solid var(--gterra);border-radius:0;
+  padding:2px 0 2px 26px;max-width:62ch}
+.guide .skipbox h3{color:var(--gterra);margin:0 0 12px;font-size:21px}
+.guide .skipbox p{font-size:17.5px;line-height:1.62;color:var(--gtext);margin:0 0 .8em}
+
+/* the products: the covers are the colour, so the frame gets out of the way */
+.guide .s-berry{background:var(--gp2)}
+.guide .s-berry h2,.guide .s-berry .sub{color:var(--gink)}
+.guide .s-berry .sub{font-size:17px;color:var(--gmute);max-width:52ch}
+.guide .cards{gap:26px}
+.guide .gcol-4{grid-template-columns:repeat(4,1fr)}
+.guide .gcol-3{grid-template-columns:repeat(3,1fr)}
+.guide .gcol-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:900px){.guide .grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.guide .grid{grid-template-columns:1fr}}
+.guide .card{background:#fff;border:1px solid var(--gline);border-radius:10px;box-shadow:none;
+  overflow:hidden;transition:border-color .15s,transform .15s}
+.guide .card img{border-bottom:1px solid var(--gline)}
+.guide .card:hover{transform:translateY(-3px);border-color:var(--gink)}
+.guide .card .chip{background:var(--gsun);border:0;border-radius:3px;font-size:10px;
+  letter-spacing:.12em;padding:4px 8px}
+.guide .card .cname{font-family:Fraunces,Georgia,serif;text-transform:none;letter-spacing:-.01em;
+  font-size:17px;font-weight:600;line-height:1.24}
+.guide .card .cline{font-size:13.5px;color:var(--gmute)}
+
+/* the free file: the one place the brand yellow is allowed to be a field --- */
+.guide .grab{background:var(--gp)}
+/* The plate ran the full 1032px with every word inside a 52ch column, so half of the loudest
+   block on the page carried nothing. Copy left, the button on the right and centred on it: the
+   slab now has two ends and reads as a promo unit instead of a wide empty rectangle. */
+.guide .grab .plate{background:var(--gsun);color:var(--gink);border-radius:14px;
+  padding:clamp(34px,4.6vw,54px);box-shadow:none;display:grid;gap:8px}
+.guide .grab .pcopy{display:grid;gap:8px;min-width:0}
+.guide .grab .pact{margin:18px 0 0}
+@media(min-width:900px){
+  .guide .grab .plate{grid-template-columns:minmax(0,1fr) auto;column-gap:56px;align-items:center}
+  .guide .grab .pact{margin:0;justify-self:end}
+}
+.guide .grab .plate .kicker{color:#5E4C0C}  /* 3.97 on the sun plate; 5.77 here */
+.guide .grab .plate h2{color:var(--gink);font-size:clamp(25px,2.9vw,36px);max-width:22ch;margin:6px 0 4px}
+.guide .grab .plate p{color:#3A3212;font-size:17px;max-width:52ch;margin:0}
+.guide .grab .btn{background:var(--gink);color:#fff;border:0;border-radius:8px;box-shadow:none;
+  padding:15px 26px;font-size:15px;justify-self:start;margin-top:14px}
+.guide .grab .btn:hover{background:#2B2F38;box-shadow:none}
+
+/* questions and further reading: hairlines again --------------------------- */
+.guide .faq{display:grid;gap:0;grid-template-columns:1fr;border-top:1px solid var(--gline)}
+@media(min-width:820px){
+  .guide .faq{grid-template-columns:1fr 1fr;column-gap:56px}
+  .guide .faq .qa:last-child:nth-child(odd){grid-column:1/-1}
+  .guide .faq .qa:last-child:nth-child(odd) dd{max-width:78ch}
+}
+.guide .faq .qa{background:none;border:0;border-bottom:1px solid var(--gline);border-radius:0;
+  box-shadow:none;padding:24px 0 26px}
+.guide .faq dt{font-family:Fraunces,Georgia,serif;text-transform:none;letter-spacing:-.01em;
+  font-size:19px;font-weight:600;line-height:1.28;margin:0 0 10px;color:var(--gink)}
+.guide .faq dd{font-size:16.5px;line-height:1.6;color:var(--gtext);max-width:46ch}
+.guide .gcards{gap:0;grid-template-columns:1fr;border-top:1px solid var(--gline)}
+@media(min-width:820px){.guide .gcards{grid-template-columns:repeat(3,1fr);column-gap:44px}}
+/* Titles wrap to two lines or three, so the "read it" line landed at three different heights
+   across one row. Pushing it to the bottom of a flex column puts the row back on one line. */
+.guide .gcard{background:none;border:0;border-bottom:1px solid var(--gline);border-radius:0;
+  box-shadow:none;padding:24px 0 26px;display:flex;flex-direction:column}
+.guide .gcard .more{margin-top:auto;padding-top:4px}
+.guide .gcard:hover{transform:none;box-shadow:none}
+.guide .gcard h3{font-size:19px;margin:0 0 8px;line-height:1.26}
+.guide .gcard:hover h3{color:var(--gterra)}
+.guide .gcard p{font-size:15.5px;line-height:1.55;color:var(--gmute);margin:0 0 12px}
+.guide .gcard .more{font:700 11px/1 Archivo,system-ui,sans-serif;letter-spacing:.15em;
+  color:var(--gterra)}
+
+/* photographs ------------------------------------------------------------- */
+/* A photograph earns full width or it is not worth carrying. The band runs edge to edge with a
+   fixed ratio so a portrait source cannot blow the page open, and the caption sits back in the
+   reading column where captions belong. Credit is built from the licence file, never typed. */
+.guide .s-photo{padding:0;background:var(--gink)}
+.guide .pband{margin:0}
+.guide .pband img{display:block;width:100%;height:clamp(240px,38vw,520px);object-fit:cover}
+/* The caption bar is 1032px of dark ground; a 58ch caption alone left half of it empty. Caption
+   left, credit right, both on the same baseline, so the bar reads as a designed strip. */
+.guide .pband figcaption{display:flex;align-items:flex-end;justify-content:space-between;
+  gap:44px;flex-wrap:wrap;padding:17px 44px 21px;margin:0 auto}
+.guide .pcap{margin:0;font-size:15.5px;line-height:1.5;color:#EDE4D6;max-width:58ch}
+.guide .pcredit{margin:6px 0 0;font:400 12.5px/1.5 Archivo,system-ui,sans-serif;color:#A79C8C;
+  letter-spacing:.02em}
+.guide .pband figcaption .pcredit{margin:0;text-align:right;flex:0 0 auto}
+.guide .pcredit a{color:#C9BEAC;text-underline-offset:3px}
+.guide .pband figcaption .pcredit{color:#A79C8C}
+/* an inset figure reads as part of the article, so its credit sits on paper. It is a RAIL
+   figure now: no float, so it cannot escape its own block and cannot overhang a paragraph. */
+.guide .pinset{margin:0;max-width:520px}
+.guide .grail .pinset{max-width:none}
+.guide .pinset img{display:block;width:100%;height:auto;border-radius:4px;
+  border:1px solid var(--gline)}
+.guide .pinset figcaption{padding:11px 0 0}
+.guide .pinset .pcap{color:var(--gtext);font-size:14.5px;max-width:none}
+.guide .pinset .pcredit{color:var(--gmute)}
+.guide .pinset .pcredit a{color:var(--gmute)}
