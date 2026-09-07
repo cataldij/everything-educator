@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>The Everything Educator — Teacher to Teacher</title>
+  <link>https://www.theeverythingeducator.com/teacher-to-teacher/</link>
+  <description>Classroom resources for educators, built by educators who use them and thrive with them.</description>
+  <language>en-us</language>
+  <atom:link href="https://www.theeverythingeducator.com/feed.xml" rel="self" type="application/rss+xml"/>
+</channel>
+</rss>

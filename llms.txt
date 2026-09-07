@@ -47,3 +47,4 @@ Teachers Pay Teachers; this site carries free downloads and practitioner how-to 
 
 ## Sitemap
 - https://www.theeverythingeducator.com/sitemap.xml
+- https://www.theeverythingeducator.com/feed.xml : RSS of the Teacher to Teacher pages (articles only, no product links)
