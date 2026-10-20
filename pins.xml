@@ -6,5 +6,23 @@
   <description>Free classroom printables and files from The Everything Educator.</description>
   <language>en-us</language>
   <atom:link href="https://www.theeverythingeducator.com/pins.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>All About Me Bag</title>
+    <link>https://www.theeverythingeducator.com/free/all-about-me-bag/</link>
+    <guid isPermaLink="false">dvxa2o</guid>
+    <description>Editable Note Home, Bag Topper and Share Day Sheet</description>
+    <pubDate>Tue, 20 Oct 2026 12:00:00 GMT</pubDate>
+    <enclosure url="https://www.theeverythingeducator.com/pins/all-about-me-bag-sun.jpg" type="image/jpeg"/>
+    <media:content url="https://www.theeverythingeducator.com/pins/all-about-me-bag-sun.jpg" type="image/jpeg" medium="image"/>
+  </item>
+  <item>
+    <title>FREE $100,000 Pyramid Classroom Game</title>
+    <link>https://www.theeverythingeducator.com/free/100-000-pyramid-classroom-game/</link>
+    <guid isPermaLink="false">1sudtmp</guid>
+    <description>Editable Vocabulary Review</description>
+    <pubDate>Tue, 20 Oct 2026 12:00:00 GMT</pubDate>
+    <enclosure url="https://www.theeverythingeducator.com/pins/100-000-pyramid-classroom-game-sun.jpg" type="image/jpeg"/>
+    <media:content url="https://www.theeverythingeducator.com/pins/100-000-pyramid-classroom-game-sun.jpg" type="image/jpeg" medium="image"/>
+  </item>
 </channel>
 </rss>

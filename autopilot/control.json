@@ -3,7 +3,7 @@
     "enabled": true
   },
   "pinterest": {
-    "enabled": false,
+    "enabled": true,
     "vetoed": []
   }
 }
