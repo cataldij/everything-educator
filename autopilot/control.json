@@ -1,0 +1,9 @@
+{
+  "global": {
+    "enabled": true
+  },
+  "pinterest": {
+    "enabled": false,
+    "vetoed": []
+  }
+}

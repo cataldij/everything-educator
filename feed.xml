@@ -1,10 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-  <title>The Everything Educator — Teacher to Teacher</title>
+  <title>The Everything Educator | Teacher to Teacher</title>
   <link>https://www.theeverythingeducator.com/teacher-to-teacher/</link>
   <description>Classroom resources for educators, built by educators who use them and thrive with them.</description>
   <language>en-us</language>
   <atom:link href="https://www.theeverythingeducator.com/feed.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>First Day of Spanish Class: Routines and Procedures That Hold</title>
+    <link>https://www.theeverythingeducator.com/teacher-to-teacher/first-day-of-spanish-class-routines/</link>
+    <guid isPermaLink="true">https://www.theeverythingeducator.com/teacher-to-teacher/first-day-of-spanish-class-routines/</guid>
+    <description>We read the Spanish-teacher blogs that hold the first page for this and found they disagree about the two biggest questions: how much Spanish on day one, and whether to teach procedures at all in week one. Credited by name, with the first-day activities in Spanish.</description>
+    <pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>How to Get Students Speaking Spanish in Class</title>
+    <link>https://www.theeverythingeducator.com/teacher-to-teacher/get-students-speaking-spanish/</link>
+    <guid isPermaLink="true">https://www.theeverythingeducator.com/teacher-to-teacher/get-students-speaking-spanish/</guid>
+    <description>Seven Spanish teachers rank for this phrase and they split into two camps: one takes points away for English, one removes the reasons not to speak. We read all of them, kept their names on their ideas, and laid the split out. With the chat mats and projects at the bottom.</description>
+    <pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>How to Organize Student Papers in the Classroom</title>
+    <link>https://www.theeverythingeducator.com/teacher-to-teacher/organize-student-papers/</link>
+    <guid isPermaLink="true">https://www.theeverythingeducator.com/teacher-to-teacher/organize-student-papers/</guid>
+    <description>We read the six teacher blogs that hold the first page for this and pulled out the system they all quietly share: three containers, a student job that empties them, and a rule for the papers that break it. Credited by name, with the labels to run it.</description>
+    <pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>How to Set Up a Spanish Classroom for the First Day</title>
+    <link>https://www.theeverythingeducator.com/teacher-to-teacher/spanish-classroom-first-day-setup/</link>
+    <guid isPermaLink="true">https://www.theeverythingeducator.com/teacher-to-teacher/spanish-classroom-first-day-setup/</guid>
+    <description>We read the Spanish-teacher blogs that rank for this and pulled out what goes on the walls before day one, what is deliberately left blank, and the six zones that decide whether the room runs itself. Credited by name, with the editable signs in Spanish.</description>
+    <pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>The Take-Home Folder System: What Goes In It and How to Run It</title>
+    <link>https://www.theeverythingeducator.com/teacher-to-teacher/take-home-folder-system/</link>
+    <guid isPermaLink="true">https://www.theeverythingeducator.com/teacher-to-teacher/take-home-folder-system/</guid>
+    <description>We read the teacher blogs that hold the first page for this and pulled out what actually goes in the folder, why the two sides are labeled opposite ways on different pages, and the morning routine that gets folders back. Credited by name, with the covers and labels to run it.</description>
+    <pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>How to Use a Visual Schedule in a Special Education Classroom</title>
+    <link>https://www.theeverythingeducator.com/teacher-to-teacher/visual-schedule-special-education/</link>
+    <guid isPermaLink="true">https://www.theeverythingeducator.com/teacher-to-teacher/visual-schedule-special-education/</guid>
+    <description>We read the special education blogs that hold the first page for this, plus the research summary they all sit on, and pulled out the part they are weakest on: running the schedule day to day. Credited by name, with the cards and boards to print.</description>
+    <pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>How to Teach Hispanic Heritage Month in Spanish Class</title>
+    <link>https://www.theeverythingeducator.com/teacher-to-teacher/hispanic-heritage-month-spanish-class/</link>
+    <guid isPermaLink="true">https://www.theeverythingeducator.com/teacher-to-teacher/hispanic-heritage-month-spanish-class/</guid>
+    <description>We read the Spanish-teacher blogs that rank for this and pulled out what works, what they admit fails, and the four-week plan that makes every day end in Spanish. Credited by name, with the printables to run it.</description>
+    <pubDate>Sat, 05 Sep 2026 00:00:00 GMT</pubDate>
+  </item>
 </channel>
 </rss>

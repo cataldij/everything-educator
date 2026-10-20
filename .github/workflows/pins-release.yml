@@ -1,0 +1,123 @@
+# pins-release.yml -- daily Pinterest pins.xml refresh. Purpose, usage: 2026-09-27.
+#
+# ⛔ STAGED HERE, NOT ENABLED, NOT PUSHED. This file is written by a builder brief that named
+# "NO deploy, NO push, NO GitHub Actions enablement" as a hard red line, so it lives in tpt-engine
+# at everything-educator-site/.github/workflows/pins-release.yml -- one level under
+# everything-educator-site/, exactly mirroring where it needs to sit under the Pages repo ROOT
+# (cataldij/everything-educator), since a repo's workflows must live at .github/workflows/ from
+# that repo's own root, not inside public/.
+#
+# GAP AN OPUS DEPLOY MUST CLOSE (there is no local checkout of that repo to close it from here,
+# and doing so is a deploy action, out of scope for this builder): tools/_site-deploy.mjs's
+# existing deploy step copies ONLY everything-educator-site/public/. into the scratch clone --
+# never .github/. Landing this workflow needs a NEW copy step (this file -> <clone>/.github/
+# workflows/pins-release.yml) plus committing tools/_pins-feed.mjs into that same repo (at
+# tools/_pins-feed.mjs, so the relative import below resolves) the next time Opus deploys.
+# Until both land, this workflow does not exist in GitHub's eyes and cron never fires.
+#
+# WHY IT NEVER READS tpt-engine's data/ FOLDER: this job runs in a SEPARATE checkout
+# (cataldij/everything-educator) with no access to this repo's data/distribution/. Per
+# DISTRIBUTION-AUTOPILOT-2026-09-27.md §iii "Shared rails" -- "Cloud parts read
+# /autopilot/control.json on our site, which node tools/_autopilot-publish.mjs --sync-control
+# writes" -- cloud jobs get their inputs over HTTPS from the already-published site, not from a
+# second copy committed into this repo. The pins queue follows the identical pattern: site-build.mjs
+# now publishes data/distribution/pins/queue.json to public/pins/queue.json, so it is live at
+# https://www.theeverythingeducator.com/pins/queue.json the same way control is live at
+# https://www.theeverythingeducator.com/autopilot/control.json. This keeps this repo's own commits
+# to pins.xml only -- it never carries a copy of internal autopilot.json fields it does not need.
+#
+# tools/_pins-feed.mjs's exported renderPinsFeed(queue, control, dateStr) is a PURE function (see
+# its own header) built exactly so a caller that already has both objects -- this job, after two
+# fetches -- never needs that file's local-disk-reading CLI path at all.
+name: pins-release
+
+on:
+  schedule:
+    - cron: '15 10 * * *'   # 10:15 UTC daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # A small, disposable glue script (NOT tools/_pins-feed.mjs itself, which this repo must
+      # carry as a committed file at the path imported below): fetch the two live JSON inputs,
+      # hand them to the ONE shared generator, write pins.xml at the repo root (same place
+      # site-build.mjs writes it locally, so the served path never moves).
+      - name: Write the fetch-and-render glue script
+        run: |
+          cat > _pins_release_ci.mjs <<'JS'
+          import { renderPinsFeed } from './tools/_pins-feed.mjs';
+          import fs from 'node:fs';
+
+          const BASE = 'https://www.theeverythingeducator.com';
+          const today = new Date().toISOString().slice(0, 10);
+
+          async function getJson(url, fallback) {
+            try {
+              const res = await fetch(url);
+              if (!res.ok) { console.error(`FAIL ${url}: HTTP ${res.status}`); return fallback; }
+              return await res.json();
+            } catch (e) {
+              console.error(`FAIL ${url}: ${e.message}`);
+              return fallback;
+            }
+          }
+
+          const [queue, control] = await Promise.all([
+            getJson(`${BASE}/pins/queue.json`, []),
+            getJson(`${BASE}/autopilot/control.json`, {}),
+          ]);
+          const { xml, count } = renderPinsFeed(queue, control, today);
+          fs.writeFileSync('pins.xml', xml, 'utf8');
+          console.log(`pins.xml: ${count} item(s) due as of ${today} (queue ${queue.length}, control pinterest.enabled=${control?.pinterest?.enabled})`);
+          JS
+
+      - name: Generate pins.xml
+        run: node _pins_release_ci.mjs
+
+      - name: Commit only if bytes changed
+        id: commit
+        run: |
+          rm -f _pins_release_ci.mjs
+          if git diff --quiet -- pins.xml; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "no change, nothing to commit"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add pins.xml
+            git commit -m "pins.xml: daily refresh ($(date -u +%F))"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Pages needs ~40s before a build reflects a new push (same lesson as the local deploy's
+      # own poll loop, DISTRIBUTION mental model §9). Informational only: this job's job is the
+      # commit, not the Pages build, so a poll timeout logs and exits 0 rather than failing the run.
+      - name: Poll the Pages build (informational)
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          sha=$(git rev-parse HEAD)
+          for i in $(seq 1 15); do
+            status=$(gh api "repos/${{ github.repository }}/pages/builds/latest" --jq '.status' 2>/dev/null || echo "unknown")
+            commit=$(gh api "repos/${{ github.repository }}/pages/builds/latest" --jq '.commit' 2>/dev/null || echo "")
+            if [ "$status" = "built" ] && [ "$commit" = "$sha" ]; then
+              echo "Pages built at $sha"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Pages build did not confirm within the poll window (not a failure; the commit is what matters here)"
