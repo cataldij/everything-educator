@@ -460,8 +460,8 @@
     return { el: el, n: 0 };
   };
   T.sort = function (s, C) {
-    var el = slideEl('sort'), it = s.items || [], g = s.groups || ['', ''], n = it.length, r = rng(C.seed + 11), field = h('div', 'dk-so'), chips = [], bins = [[], []], stack = [], order = [];
-    var BX = [130, 1010], BW = 780, BT = 500, BB = 1036, ROW = 74, pos = [], i;
+    var el = slideEl('sort'), it = s.items || [], g = s.groups || ['', ''], n = it.length, r = rng(C.seed + 11), field = h('div', 'dk-so' + (g.length > 2 ? ' dk-so3' : '')), chips = [], bins = g.map(function () { return []; }), stack = [], order = [];
+    var G3 = g.length > 2, BX = G3 ? [100, 690, 1280] : [130, 1010], BW = G3 ? 540 : 780, BT = 500, BB = 1036, ROW = G3 ? 112 : 74, pos = [], i;   // two bins, or three (up to 3 cards a bin, cards wrap)
     field.appendChild(label(s.label, 0, 1));
     if (s.sub) field.appendChild(E(h('div', 'dk-pill dk-p2 dk-sosub', s.sub), 1));
     var binEls = g.map(function (name, q) {
@@ -470,7 +470,7 @@
     });
     var rows = [], row = null, x, wd, y0 = 200, bh = 66;
     it.forEach(function (c, q) {
-      wd = 118 + c.text.length * 14.8;
+      wd = Math.min(G3 ? 484 : 9e3, 118 + c.text.length * 14.8);
       if (!row || row.w + wd + 24 > 1680) { row = { w: 0, items: [] }; rows.push(row); }
       row.items.push({ q: q, w: wd }); row.w += wd + 24;
     });
@@ -480,13 +480,13 @@
       rw.items.forEach(function (o) { pos[o.q] = { x: x + (r() * 14 - 7), y: y0 + ri * step + (r() * 10 - 5), r: r() * 5 - 2.5 }; x += o.w + 24; });
     });
     it.forEach(function (c, q) {
-      var chip = h('div', 'dk-chip dk-x'), inn = h('div', 'dk-ci'), ob = { el: chip, g: c.group === 1 ? 1 : 0, q: q, placed: false, px: pos[q].x, py: pos[q].y, pr: pos[q].r };
+      var chip = h('div', 'dk-chip dk-x'), inn = h('div', 'dk-ci'), ob = { el: chip, g: c.group | 0, q: q, placed: false, px: pos[q].x, py: pos[q].y, pr: pos[q].r };
       inn.appendChild(ic(c.icon)); inn.appendChild(h('span', '', c.text)); chip.appendChild(inn);
       chip.style.cssText = '--k:' + q + ';--bt:' + (3 + r() * 1.6).toFixed(1) + 's;translate:' + ob.px.toFixed(0) + 'px ' + ob.py.toFixed(0) + 'px;rotate:' + ob.pr.toFixed(1) + 'deg';
       chips.push(ob); field.appendChild(chip);
     });
-    var a0 = chips.filter(function (c) { return !c.g; }), a1 = chips.filter(function (c) { return c.g; });
-    for (i = 0; i < Math.max(a0.length, a1.length); i++) { if (a0[i]) order.push(a0[i]); if (a1[i]) order.push(a1[i]); }
+    var by = g.map(function (x, q) { return chips.filter(function (c) { return c.g === q; }); });
+    for (i = 0; i < n; i++) by.forEach(function (a) { if (a[i]) order.push(a[i]); });
     function lay(q) { bins[q].forEach(function (c, p) { c.el.style.translate = (BX[q] + 28) + 'px ' + (BT + 112 + p * ROW) + 'px'; c.el.style.rotate = '0deg'; }); }
     function put(c) { c.placed = true; c.el.classList.add('is-in'); bins[c.g].push(c); stack.push(c); lay(c.g); }
     function out(c) { c.placed = false; c.el.classList.remove('is-in'); bins[c.g].splice(bins[c.g].indexOf(c), 1); stack.splice(stack.indexOf(c), 1); lay(c.g); c.el.style.translate = c.px.toFixed(0) + 'px ' + c.py.toFixed(0) + 'px'; c.el.style.rotate = c.pr.toFixed(1) + 'deg'; }
@@ -507,8 +507,8 @@
       });
       function end(e) {
         if (!e0) return;
-        var rr = el.getBoundingClientRect(), px = (e.clientX - rr.left) / sc, py = (e.clientY - rr.top) / sc, q = px > BX[0] && px < BX[0] + BW ? 0 : px > BX[1] && px < BX[1] + BW ? 1 : -1;
-        e0 = null; c.el.classList.remove('is-drag'); binEls.forEach(function (b) { b.classList.remove('is-over'); });
+        var rr = el.getBoundingClientRect(), px = (e.clientX - rr.left) / sc, py = (e.clientY - rr.top) / sc, q = -1;
+        BX.forEach(function (x, j) { if (px > x && px < x + BW) q = j; }); e0 = null; c.el.classList.remove('is-drag'); binEls.forEach(function (b) { b.classList.remove('is-over'); });
         if (q >= 0 && py > BT && py < BB) {
           if (q === c.g) { put(c); C.go(Math.max(stack.length, 0)); }
           else { c.el.classList.remove('is-no'); void c.el.offsetWidth; c.el.classList.add('is-no'); home(c); }
@@ -558,8 +558,8 @@
         if (c.slot) th.appendChild(ph(C, c.slot, { bg: 1, fr: .1 })); else { th.classList.add('dk-cth-i'); th.appendChild(ic('map-pin')); }
         tx.appendChild(h('span', 'dk-ctt', c.title || c.slot));
         tx.appendChild(h('span', 'dk-ctc', 'by ' + (c.creator || 'unknown')));
-        if (c.sketch) tx.appendChild(h('span', 'dk-ctc', c.sketch === 2 ? 'Sketch adapted from this photo, shared under the same licence' : c.sketch === 3 ? 'Sketch adapted from this photo' : 'Line drawing traced from the photo'));
-        a1.textContent = c.license || 'licence'; link(a1, c.licenseUrl);
+        if (c.sketch) tx.appendChild(h('span', 'dk-ctc', c.sketch === 2 ? 'Sketch adapted from this photo, shared under the same license' : c.sketch === 3 ? 'Sketch adapted from this photo' : 'Line drawing traced from the photo'));
+        a1.textContent = c.license || 'license'; link(a1, c.licenseUrl);
         a2.textContent = host2(c.page || c.source || ''); link(a2, c.page || c.source);
         l3.appendChild(a1); l3.appendChild(d.createTextNode('  ·  ')); l3.appendChild(a2); tx.appendChild(l3);
         row.appendChild(th); row.appendChild(tx); pgEl.appendChild(row);
@@ -594,7 +594,7 @@
 
   T.vote = function (s, C) {
     var el = slideEl('vote'), box = h('div', 'dk-vt'), cards = s.cards || [], N = cards.length, lab = s.labels || (s.mode === 'agree' ? ['Agree', 'Disagree'] : ['True', 'False']);
-    var grid = s.layout ? s.layout === 'grid' : N > 3, cols = grid ? (N <= 2 ? N : N <= 4 ? 2 : 3) : 1, rows = Math.ceil(N / cols), vg = h('div', 'dk-vg' + (grid ? ' dk-vgrid' : '')), els = [], cnt = [], total = grid ? 2 * N : 3 * N - 1;
+    var grid = s.layout ? s.layout === 'grid' : N > 3, cols = grid ? (N <= 2 ? N : N <= 4 ? 2 : 3) : 1, rows = Math.ceil(N / cols), vg = h('div', 'dk-vg' + (grid ? ' dk-vgrid' : '')), els = [], cnt = [], rv = [], total = grid ? 2 * N : 3 * N - 1;
     box.appendChild(label(s.label, 0, 1));
     vg.style.gridTemplateColumns = 'repeat(' + cols + ',1fr)'; vg.style.gridTemplateRows = 'repeat(' + rows + ',1fr)';
     cards.forEach(function (c, k) {
@@ -609,12 +609,14 @@
       });
       bar.innerHTML = '<i class="dk-bt0"></i><i class="dk-bt1"></i>';
       an.innerHTML = has ? '<svg class="dk-mk ' + (c.answer ? 'dk-yes' : 'dk-no') + '" viewBox="0 0 100 100" aria-hidden="true">' + (c.answer ? '<path pathLength="1" d="M12 56Q24 66 38 82Q58 42 92 16"/>' : '<path pathLength="1" d="M18 18Q50 48 84 84"/><path pathLength="1" d="M84 16Q50 52 16 84"/>') + '</svg>' : '';
-      var tx = h('div', 'dk-vtx'); if (has) tx.appendChild(h('div', 'dk-vv', c.answer ? lab[0] : lab[1])); tx.appendChild(h('div', 'dk-vw', c.why || '')); an.appendChild(tx);
+      var tx = h('div', 'dk-vtx'); if (has) tx.appendChild(h('div', 'dk-vv', c.answer ? lab[0] : lab[1])); tx.appendChild(h('div', 'dk-vw', c.why || ''));
+      if (!has && !c.why) { tx = h('div', 'dk-vtl'); rv[k] = lab.map(function (name, j) { var t = h('div', 'dk-vb dk-vb' + j), n = h('span', 'dk-vn', '0'); t.appendChild(h('span', 'dk-vl', name)); t.appendChild(n); tx.appendChild(t); return n; }); }   // a poll card (no answer, no why): the reveal is the tally
+      an.appendChild(tx);
       pw.appendChild(pn); pw.appendChild(an); cd.appendChild(st); cd.appendChild(pw); cd.appendChild(bar); vg.appendChild(cd); els.push(cd);
     });
     function tally(k) {
       var t = cnt[k][0] + cnt[k][1], b = els[k].querySelector('.dk-vbar');
-      b.style.setProperty('--w0', t ? cnt[k][0] : 1); b.style.setProperty('--w1', t ? cnt[k][1] : 1); b.classList.toggle('is-on', t > 0);
+      b.style.setProperty('--w0', t ? cnt[k][0] : 1); b.style.setProperty('--w1', t ? cnt[k][1] : 1); b.classList.toggle('is-on', t > 0); if (rv[k]) rv[k].forEach(function (n, j) { n.textContent = cnt[k][j]; });
     }
     function phase(step) {
       var p = [], k, ci, q;
@@ -678,13 +680,13 @@
     function lay() {
       var img = photo.querySelector('img'), nw = img && img.naturalWidth || 16, nh = img && img.naturalHeight || 9, sc = Math.max(W / nw, H / nh), sw = nw * sc, sh = nh * sc, ox = (W - sw) * focal[0], oy = (H - sh) * focal[1];
       G = hs.map(function (o) {
-        var px = ox + o.x / 100 * sw, py = oy + o.y / 100 * sh, rr = o.r / 100 * sw, tx = Math.max(W - Z * W, Math.min(0, W * .5 - Z * px)), ty = Math.max(H - Z * H, Math.min(0, H * .48 - Z * py));
-        return { px: px, py: py, r: rr, tx: tx, ty: ty, fx: Z * px + tx, fy: Z * py + ty };
+        var px = ox + o.x / 100 * sw, py = oy + o.y / 100 * sh, rr = o.r / 100 * sw, ry = (o.ry || o.r) / 100 * sw, tx = Math.max(W - Z * W, Math.min(0, W * .5 - Z * px)), ty = Math.max(H - Z * H, Math.min(0, H * .48 - Z * py));
+        return { px: px, py: py, r: rr, ry: ry, tx: tx, ty: ty, fx: Z * px + tx, fy: Z * py + ty };
       });
       hs.forEach(function (o, k) {
-        var q = G[k], d0 = Math.max(40, q.r * 2 - 56), rg = rng(C.seed * 31 + k * 17);
-        hg[k].g.style.cssText = 'left:' + (q.px - q.r) + 'px;top:' + (q.py - q.r) + 'px;width:' + (q.r * 2) + 'px;height:' + (q.r * 2) + 'px';
-        hg[k].c.innerHTML = '<svg viewBox="' + (-(q.r * 2 - d0) / 2) + ' ' + (-(q.r * 2 - d0) / 2) + ' ' + (q.r * 2) + ' ' + (q.r * 2) + '" aria-hidden="true"><path pathLength="1" d="' + DOODLE.circle(rg, [], { w: d0, h: d0 })[0] + '"/></svg>';
+        var q = G[k], d0 = Math.max(40, q.r * 2 - 56), d1 = Math.max(40, q.ry * 2 - 56), rg = rng(C.seed * 31 + k * 17);   // ry (optional): a ring that is wider than it is tall, for a line of text
+        hg[k].g.style.cssText = 'left:' + (q.px - q.r) + 'px;top:' + (q.py - q.ry) + 'px;width:' + (q.r * 2) + 'px;height:' + (q.ry * 2) + 'px';
+        hg[k].c.innerHTML = '<svg viewBox="' + (-(q.r * 2 - d0) / 2) + ' ' + (-(q.ry * 2 - d1) / 2) + ' ' + (q.r * 2) + ' ' + (q.ry * 2) + '" aria-hidden="true"><path pathLength="1" d="' + DOODLE.circle(rg, [], { w: d0, h: d1 })[0] + '"/></svg>';
       });
       view(cur);
     }
