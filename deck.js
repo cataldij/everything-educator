@@ -52,7 +52,7 @@
     "languages": "<path d=\"m5 8 6 6\"/><path d=\"m4 14 6-6 2-3\"/><path d=\"M2 5h12\"/><path d=\"M7 2h1\"/><path d=\"m22 22-5-10-5 10\"/><path d=\"M14 18h6\"/>",
     "scale": "<path d=\"m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"/><path d=\"m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"/><path d=\"M7 21h10\"/><path d=\"M12 3v18\"/><path d=\"M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\"/>"
   };
-  var TYPES = ['cover', 'hook', 'bignum', 'timeline', 'compare', 'quiz', 'task', 'statement', 'cards', 'sort', 'frames', 'exit', 'credits', 'board', 'fact', 'vote', 'mc', 'spot', 'map', 'count', 'spinner', 'turntalk'];
+  var TYPES = ['cover', 'hook', 'bignum', 'timeline', 'compare', 'quiz', 'task', 'statement', 'cards', 'sort', 'frames', 'exit', 'credits', 'board', 'fact', 'vote', 'mc', 'spot', 'map', 'count', 'spinner', 'turntalk', 'list'];
   var MOTIFS = ['poppies', 'papel-picado', 'snow', 'leaves', 'confetti', 'candle-glow', 'sparkle', 'grid', 'none'];
 
   function h(tag, cls, text) { var n = d.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
@@ -188,6 +188,7 @@
     return smooth(p);
   }
   var DOODLE = {
+    path: function (r, R, U, o) { return o.d.map(function (s) { return s.replace(/(-?[\d.]+) (-?[\d.]+)/g, function (m, a, b) { return f1(a * U.w / 100) + ' ' + f1(b * U.h / 100); }); }); },
     circle: function (r, R, U) {
       var cx = U.w / 2, cy = U.h / 2, rx = U.w / 2 * 1.04 + 26, ry = U.h / 2 + 6, a0 = r() * 6.28, n = 36, p = [], k, a, q;
       for (k = 0; k <= n + 3; k++) { a = a0 + k / n * 6.2832; q = 1 - k / (n * 22) + (r() - .5) * .05; p.push([cx + rx * q * Math.cos(a), cy + ry * q * Math.sin(a)]); }
@@ -219,7 +220,7 @@
     }
   };
   var FIELD = { title: '.dk-cov .dk-h,.dk-tt,.dk-ct', label: '.dk-label', sub: '.dk-sub', q: '.dk-q', prompt: '.dk-hq,.dk-cpr,.dk-ep,.dk-tp,.dk-sp,.dk-sq', text: '.dk-sm,.dk-bdx,.dk-ftx,.dk-vs,.dk-sd', num: '.dk-fnum', value: '.dk-num', line: '.dk-bnl,.dk-cnl,.dk-fln', why: '.dk-why' };
-  var PAPER = ['hook', 'compare', 'quiz', 'mc', 'task', 'cards', 'sort', 'frames', 'exit', 'vote', 'map', 'count', 'spinner', 'turntalk', 'timeline'];
+  var PAPER = ['hook', 'compare', 'quiz', 'mc', 'task', 'cards', 'sort', 'frames', 'exit', 'vote', 'map', 'count', 'spinner', 'turntalk', 'timeline', 'list'];
   function textRects(host, a, b) {
     var tw = d.createTreeWalker(host, 4), i = 0, re = /\S+/g, rg = d.createRange(), n, m, got = 0, hr = host.getBoundingClientRect(), k = host.offsetWidth ? hr.width / host.offsetWidth : 1, lines = [];
     while ((n = tw.nextNode())) { re.lastIndex = 0; while ((m = re.exec(n.nodeValue))) { i++; if (i >= a && i <= b) { if (!got) rg.setStart(n, m.index); rg.setEnd(n, m.index + m[0].length); got = 1; } } }
@@ -460,21 +461,21 @@
     return { el: el, n: 0 };
   };
   T.sort = function (s, C) {
-    var el = slideEl('sort'), it = s.items || [], g = s.groups || ['', ''], n = it.length, r = rng(C.seed + 11), field = h('div', 'dk-so' + (g.length > 2 ? ' dk-so3' : '')), chips = [], bins = g.map(function () { return []; }), stack = [], order = [];
-    var G3 = g.length > 2, BX = G3 ? [100, 690, 1280] : [130, 1010], BW = G3 ? 540 : 780, BT = 500, BB = 1036, ROW = G3 ? 112 : 74, pos = [], i;   // two bins, or three (up to 3 cards a bin, cards wrap)
+    var el = slideEl('sort'), it = s.items || [], g = s.groups || ['', ''], n = it.length, r = rng(C.seed + 11), LG = g.length < 3 && it.some(function (c) { return c.text.length > 36; }), field = h('div', 'dk-so' + (g.length > 2 ? ' dk-so3' : LG ? ' dk-sol' : '')), chips = [], bins = g.map(function () { return []; }), stack = [], order = [];
+    var G3 = g.length > 2, BX = G3 ? [100, 690, 1280] : [130, 1010], BW = G3 ? 540 : 780, BT = 500, BB = 1036, ROW = G3 || LG ? 112 : 74, pos = [], i;   // two bins, or three (up to 3 cards a bin, cards wrap)
     field.appendChild(label(s.label, 0, 1));
     if (s.sub) field.appendChild(E(h('div', 'dk-pill dk-p2 dk-sosub', s.sub), 1));
     var binEls = g.map(function (name, q) {
       var b = h('div', 'dk-bin'); b.style.cssText = 'left:' + BX[q] + 'px;top:' + BT + 'px;width:' + BW + 'px;height:' + (BB - BT) + 'px';
       b.appendChild(hd(2, 'dk-gh dk-h', name)); field.appendChild(E(b, q + 2)); return b;
     });
-    var rows = [], row = null, x, wd, y0 = 200, bh = 66;
+    var rows = [], row = null, x, wd, y0 = LG ? 170 : 200, bh = LG ? 100 : 66;
     it.forEach(function (c, q) {
-      wd = Math.min(G3 ? 484 : 9e3, 118 + c.text.length * 14.8);
+      wd = Math.min(G3 ? 484 : LG ? 724 : 9e3, 118 + c.text.length * 14.8);
       if (!row || row.w + wd + 24 > 1680) { row = { w: 0, items: [] }; rows.push(row); }
       row.items.push({ q: q, w: wd }); row.w += wd + 24;
     });
-    var step = rows.length > 1 ? Math.min(bh + 18, (424 - y0) / (rows.length - 1)) : 0;
+    var step = rows.length > 1 ? Math.min(bh + 18, ((LG ? 390 : 424) - y0) / (rows.length - 1)) : 0;
     rows.forEach(function (rw, ri) {
       x = 120 + (1680 - rw.w + 24) / 2;
       rw.items.forEach(function (o) { pos[o.q] = { x: x + (r() * 14 - 7), y: y0 + ri * step + (r() * 10 - 5), r: r() * 5 - 2.5 }; x += o.w + 24; });
@@ -593,7 +594,7 @@
   };
 
   T.vote = function (s, C) {
-    var el = slideEl('vote'), box = h('div', 'dk-vt'), cards = s.cards || [], N = cards.length, lab = s.labels || (s.mode === 'agree' ? ['Agree', 'Disagree'] : ['True', 'False']);
+    var el = slideEl('vote' + (s.plain ? ' dk-vq' : '')), box = h('div', 'dk-vt'), cards = s.cards || [], N = cards.length, lab = s.labels || (s.mode === 'agree' ? ['Agree', 'Disagree'] : ['True', 'False']);
     var grid = s.layout ? s.layout === 'grid' : N > 3, cols = grid ? (N <= 2 ? N : N <= 4 ? 2 : 3) : 1, rows = Math.ceil(N / cols), vg = h('div', 'dk-vg' + (grid ? ' dk-vgrid' : '')), els = [], cnt = [], rv = [], total = grid ? 2 * N : 3 * N - 1;
     box.appendChild(label(s.label, 0, 1));
     vg.style.gridTemplateColumns = 'repeat(' + cols + ',1fr)'; vg.style.gridTemplateRows = 'repeat(' + rows + ',1fr)';
@@ -781,6 +782,16 @@
     };
     el.appendChild(sv('<svg class="dk-pr2" viewBox="0 0 800 580" aria-hidden="true">' + person(190, 'dk-pa', 'Partner A') + person(610, 'dk-pb', 'Partner B') + '</svg>'));
     return { el: el, n: n, set: function (step, prev, instant) { if (tm && step === n && prev != null && prev < n && !instant) C.startTimer(); } };
+  };
+
+  T.list = function (s, C) {
+    var el = slideEl('list'), box = h('div', 'dk-ls' + (s.doodles ? ' dk-lsn' : '')), rs = s.rows || [], g = h('div', 'dk-lg'), m = 0;
+    box.appendChild(label(s.label, 0, 1));
+    if (s.title) box.appendChild(E(hd(2, 'dk-tt dk-h', s.title), 1));
+    rs.forEach(function (r, k) { var c = h('div', 'dk-lr dk-b'); c.setAttribute('data-b', k + 1); m = Math.max(m, r.t.length); c.appendChild(h('div', 'dk-lk', r.k)); c.appendChild(h('div', 'dk-lt dk-fr', r.t)); g.appendChild(c); });
+    g.style.setProperty('--lf', fs(m, [[44, 56], [100, 46], [999, 40]]) + 'px');
+    box.appendChild(g); el.appendChild(box);
+    return { el: el, n: rs.length };
   };
 
   function slots(s) {

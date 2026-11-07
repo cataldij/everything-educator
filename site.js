@@ -219,7 +219,8 @@ var EETeach = (function () {
     o = o || {};
     return '<a class="lcard' + (o.big ? ' lcard-big' : '') + '" href="' + esc(up) + 'teach/' + esc(l.slug) + '/">'
       + '<span class="lc-top">' + coverMedia(l, up, o)
-      + '<span class="lc-date" data-lesson-date="short" data-slug="' + esc(l.slug) + '">' + esc(occShort(l, occ)) + '</span></span>'
+      + (l.when ? '<span class="lc-date" data-lesson-date="short" data-slug="' + esc(l.slug) + '">' + esc(occShort(l, occ)) + '</span></span>'
+        : '<span class="lc-date">' + esc(l.band || '') + '</span></span>')   // a topic lesson (no `when`) shows its grade band, and the browser never rewrites it
       + '<span class="lc-b"><span class="lc-t">' + esc(l.title) + '</span>'
       + (l.line ? '<span class="lc-l">' + esc(l.line) + '</span>' : '')
       + '<span class="lc-meta"><span>' + esc(l.min) + ' min</span><i aria-hidden="true">\u00b7</i><span>' + (l.noPrep ? 'No prep' : 'Light prep') + '</span></span></span></a>';
