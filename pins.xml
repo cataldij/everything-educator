@@ -8,6 +8,24 @@
   <atom:link href="https://www.theeverythingeducator.com/pins.xml" rel="self" type="application/rss+xml"/>
   <item>
     <title>FREE Escape Room Classroom Game</title>
+    <link>https://www.theeverythingeducator.com/free/escape-room-classroom-game-superhero-edition/</link>
+    <guid isPermaLink="false">h1nbce</guid>
+    <description>Superhero Edition · 4 Puzzles</description>
+    <pubDate>Wed, 11 Nov 2026 12:00:00 GMT</pubDate>
+    <enclosure url="https://www.theeverythingeducator.com/pins/escape-room-classroom-game-superhero-edition-teal.jpg" type="image/jpeg"/>
+    <media:content url="https://www.theeverythingeducator.com/pins/escape-room-classroom-game-superhero-edition-teal.jpg" type="image/jpeg" medium="image"/>
+  </item>
+  <item>
+    <title>FREE Jeopardy Game</title>
+    <link>https://www.theeverythingeducator.com/free/jeopardy-game/</link>
+    <guid isPermaLink="false">c6xcem</guid>
+    <description>Space Theme · Editable PowerPoint + Google Slides</description>
+    <pubDate>Wed, 11 Nov 2026 12:00:00 GMT</pubDate>
+    <enclosure url="https://www.theeverythingeducator.com/pins/jeopardy-game-teal.jpg" type="image/jpeg"/>
+    <media:content url="https://www.theeverythingeducator.com/pins/jeopardy-game-teal.jpg" type="image/jpeg" medium="image"/>
+  </item>
+  <item>
+    <title>FREE Escape Room Classroom Game</title>
     <link>https://www.theeverythingeducator.com/free/escape-room-classroom-game/</link>
     <guid isPermaLink="false">eam3hn</guid>
     <description>Ocean Pirate Edition · 4 Puzzles</description>
@@ -257,24 +275,6 @@
     <pubDate>Sat, 24 Oct 2026 12:00:00 GMT</pubDate>
     <enclosure url="https://www.theeverythingeducator.com/pins/jeopardy-game-ocean-theme-sun.jpg" type="image/jpeg"/>
     <media:content url="https://www.theeverythingeducator.com/pins/jeopardy-game-ocean-theme-sun.jpg" type="image/jpeg" medium="image"/>
-  </item>
-  <item>
-    <title>FREE Escape Room Classroom Game</title>
-    <link>https://www.theeverythingeducator.com/free/escape-room-classroom-game/</link>
-    <guid isPermaLink="false">dss497</guid>
-    <description>Ocean Pirate Edition · 4 Puzzles</description>
-    <pubDate>Fri, 23 Oct 2026 12:00:00 GMT</pubDate>
-    <enclosure url="https://www.theeverythingeducator.com/pins/escape-room-classroom-game-sun.jpg" type="image/jpeg"/>
-    <media:content url="https://www.theeverythingeducator.com/pins/escape-room-classroom-game-sun.jpg" type="image/jpeg" medium="image"/>
-  </item>
-  <item>
-    <title>FREE Escape Room Classroom Game</title>
-    <link>https://www.theeverythingeducator.com/free/escape-room-classroom-game-superhero-edition/</link>
-    <guid isPermaLink="false">1rp6v9q</guid>
-    <description>Superhero Edition · 4 Puzzles</description>
-    <pubDate>Fri, 23 Oct 2026 12:00:00 GMT</pubDate>
-    <enclosure url="https://www.theeverythingeducator.com/pins/escape-room-classroom-game-superhero-edition-sun.jpg" type="image/jpeg"/>
-    <media:content url="https://www.theeverythingeducator.com/pins/escape-room-classroom-game-superhero-edition-sun.jpg" type="image/jpeg" medium="image"/>
   </item>
 </channel>
 </rss>
