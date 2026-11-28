@@ -331,6 +331,14 @@ p{margin:0 0 1.05em}
 .prose h2{font-size:clamp(24px,3vw,34px);margin:1.6em 0 .5em}
 .prose > h2:first-child,.legal > h2:first-child{margin-top:0}
 .prose p{max-width:66ch}
+/* /free/<slug>/ pages: no long token (a title, a word) may widen the page on a phone */
+.freeitem .pagehead h1,.freeitem .pagehead .lede,.freeitem .prose,.freeitem .prose a,.freeitem .facts b,.freeitem .facts span{overflow-wrap:anywhere}
+/* a free page band with four facts runs four across on a laptop (three across left one cell alone on a
+   second row), all four values at one quieter size; stacked on a phone, only a long value (a grade range,
+   a subject list) steps down and wraps as text */
+@media(min-width:961px){.freeitem .facts.n4 .inner{grid-template-columns:repeat(4,1fr)}
+  .freeitem .facts.n4 b{font-size:clamp(21px,2vw,27px);line-height:1.2;letter-spacing:-.01em}}
+.freeitem .facts b.long{font-size:clamp(21px,2vw,27px);line-height:1.2;letter-spacing:-.01em}
 .ticks{list-style:none;padding:0;margin:0 0 1.4em;display:grid;gap:10px}
 /* numbered steps: the number is the object, drawn as a cover badge rather than a list marker */
 .steps{list-style:none;margin:0;padding:0;counter-reset:s;display:grid;gap:16px;
